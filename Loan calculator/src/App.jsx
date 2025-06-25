@@ -6,7 +6,7 @@ import Error from './components/ErrorPage'
 
 const App = () => {
   return (
-    <Router
+    
   )
 }
 
