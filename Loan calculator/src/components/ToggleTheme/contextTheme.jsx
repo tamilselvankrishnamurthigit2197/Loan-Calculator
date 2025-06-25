@@ -6,7 +6,6 @@ const ColorModeContext = createContext({ toggleColorMode: ()=> {} });
 export const useColorMode = () => useContext(ColorModeContext);
 
 
-
 export const ThemeContextProvider = ({ children }) => {
     const [mode, setMode] = useState('light');
 

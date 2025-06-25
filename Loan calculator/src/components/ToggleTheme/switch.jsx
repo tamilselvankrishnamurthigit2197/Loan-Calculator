@@ -5,7 +5,7 @@ const label = { inputProps: { 'aria-label': 'Switch demo' } };
 export default function ToggleSwitch() {
   return (
     <div>
-      <Switch {...label} defaultChecked />
+      <Switch {...label} />
       
     </div>
   );
