@@ -25,6 +25,7 @@ export default function Header() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <h3>Loan Calculator</h3>
             <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path='/exchange' element={<Exchange />} />

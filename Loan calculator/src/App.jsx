@@ -10,7 +10,6 @@ import ToggleTheme from './components/ToggleTheme'
 const App = () => {
   return (
     <>
-    <h3>Loan Calculator</h3>
     <Header />
     </>
     
