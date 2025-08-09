@@ -3,11 +3,11 @@
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { createContext, useContext, useMemo, useState } from "react";
 
-const ColorModeContext = createContext({ toggleColorMode: ()=> {} });
+const ThemeCurrencyContext = createContext({ toggleColorMode: ()=> {} });
 
-export const useColorMode = () => useContext(ColorModeContext);
+export const useColorMode = () => useContext(ThemeCurrencyContext);
 
-export const ThemeContextProvider = ({ children }) => {
+export const ThemeCurrencyContextProvider = ({ children }) => {
     
     const [mode, setMode] = useState('light');
 
@@ -25,14 +25,21 @@ export const ThemeContextProvider = ({ children }) => {
         },
     }), [mode]);
 
+    /* currency  */
+    const [currency, setCurrency] = useState("USD");
+
+    const changeCurrency = (newCurrency) =>{
+        setCurrency(newCurrency);
+    }
+
 
     return(
         /* colorMode - toggles theme(mode, setMode) and theme - createTheme */
-        <ColorModeContext.Provider value={colorMode}>
+        <ThemeCurrencyContext.Provider value={{colorMode, currency, changeCurrency}}>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 {children}
             </ThemeProvider>
-        </ColorModeContext.Provider>
+        </ThemeCurrencyContext.Provider>
     )
 };
