@@ -23,11 +23,12 @@ export default function SideBar({ window }) {
     setMobileOpen((prev) => !prev);
   };
 
+/* instead of navbar component, just list nav contents here */
   const navItems = [
-    { text: 'Home', to: '/' },
-    { text: 'Exchange Rates (Live)', to: '/exchange' },
-    { text: 'About', to: '/about' },
-    { text: 'Error Page', to: '*' },
+    { text: 'HOME', to: '/' },
+    { text: 'EXCHANGE RATES (LIVE)', to: '/exchange' },
+    { text: 'ABOUT', to: '/about' },
+    { text: 'ERROR PAGE', to: '*' },
   ];
 
   // Drawer content for mobile
@@ -63,9 +64,10 @@ export default function SideBar({ window }) {
 
       {/* Top AppBar */}
       <AppBar component="nav">
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
-          {/* Left side of AppBar */}
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Toolbar sx={{ justifyContent: 'space-between', margin: '2px' }}>
+          
+          {/* Left side of AppBar : mobile view */}
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyItems: 'start', flexGrow: 1 }}>
             {/* Menu icon only for mobile */}
             <IconButton
               color="inherit"
@@ -78,16 +80,18 @@ export default function SideBar({ window }) {
             </IconButton>
 
             {/* App name */}
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1, display: {sm: 'block'} }}>
               Loan Calculator
             </Typography>
 
             {/* Mobile Theme Toggle */}
-            <Box sx={{ mr: 2, display: { sm: 'none' }, alignItems: 'flex-end' }}>
+            <Box sx={{ mr: 2, display: { sm: 'none' } }}>
               <ToggleTheme />
             </Box>
           </Box>
 
+          
+          
           {/* Desktop Navigation */}
           <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: 2 }}>
             {navItems.map((item) => (
@@ -102,6 +106,7 @@ export default function SideBar({ window }) {
             ))}
             <ToggleTheme />
           </Box>
+
         </Toolbar>
       </AppBar>
 
