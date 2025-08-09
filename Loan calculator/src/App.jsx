@@ -1,11 +1,10 @@
-import Header from "./Header"
+import Header from "./components/AppBar"
 
 const App = () => {
   return (
     <>
     <Header />
     </>
-    
   )
 }
 

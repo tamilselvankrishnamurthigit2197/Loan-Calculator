@@ -9,7 +9,9 @@ const ToggleTheme = () => {
   
   return (
     <ToggleSwitch>
+
       {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+      
     </ToggleSwitch>
   )
 }
