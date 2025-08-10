@@ -11,7 +11,11 @@ export default function ToggleSwitch() {
 
   return (
     <div>
-      <Switch onClick={colorMode.toggleColorMode} color='default' {...label} />
+      {/* <Switch onClick={colorMode.toggleColorMode} color='default' {...label} /> */}
+      <Switch
+      onClick={colorMode.toggleColorMode}
+      color='default'
+       {...label} />
     </div>
   );
 }

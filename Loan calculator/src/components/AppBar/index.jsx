@@ -89,8 +89,6 @@ export default function SideBar({ window }) {
               <ToggleTheme />
             </Box>
           </Box>
-
-          
           
           {/* Desktop Navigation */}
           <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: 2 }}>
