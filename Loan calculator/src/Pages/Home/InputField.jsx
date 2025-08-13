@@ -10,11 +10,14 @@ import {
   Paper,
   TableCell,
   TableBody,
+  TableContainer,
 } from '@mui/material';
 
 import { useMemo, useState } from 'react';
 import CurrencySelect from '../../components/CurrencyContext/CuSelect';
 import { useThemeCurrency } from '../../components/ToggleTheme/contextTheme';
+
+
 
  
 /* emi calculation */
@@ -40,7 +43,7 @@ const InputField = () => {
   const {currency} = useThemeCurrency()
 
   /* amortization schedule */
-  const [showSchedule, setShowSchedule] = useState(true)
+  const [showSchedule, setShowSchedule] = useState([])
 
   /* EMI calculation Memoize */
   const emi = useMemo(()=> calcEMI(
@@ -50,40 +53,34 @@ const InputField = () => {
   ), [principal, annualRate, years]);
 
   /* Amortization schedule Table */
-  function amortizationSchedule(){}
+  function amortizationSchedule(){
+     let balance = Number(principal);
+    const r = Number(annualRate) / 12 / 100;
+    const months = Number(years) * 12;
+    const table = [];
+
+    for (let i = 1; i <= months; i++) {
+      const interestPayment = balance * r;
+      const principalPayment = emi - interestPayment;
+      balance -= principalPayment;
+
+      table.push({
+        month: i,
+        principal: principalPayment,
+        interest: interestPayment,
+        balance: balance > 0 ? balance : 0,
+      });
+
+      if (balance <= 0) break;
+    }
+
+    return table;
+  }
+  
   /* calculate holds : currency selector - EMI value with currency - reset button */
   function handleCalculate(){
-    return(
-      <>
-      <h3>Monthly EMI: ${emi}</h3>
-      <CurrencySelect />
-      <p> Converted EMI: {emi} {currency} </p>
-      <Button variant="outlined"> RESET TABLE</Button>
-      {emi && (
-        <Paper sx={{ mt: 2, overflowX: "auto" }}>
-          <Table size="small">
-            <TableHead>
-                <TableRow>
-                  <TableCell>Month</TableCell>
-                  <TableCell align="center">Principal</TableCell>
-                  <TableCell align="center">Interest</TableCell>
-                  <TableCell align="right">Remaining Balance</TableCell>
-                </TableRow>
-              </TableHead>
-
-              <TableBody>
-                <TableRow>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                </TableRow>
-              </TableBody>
-          </Table>
-        </Paper>
-      )}
-      </>
-    )
+    const tableData = amortizationSchedule();
+    setShowSchedule(tableData); 
   }
 
   return (
@@ -128,10 +125,10 @@ const InputField = () => {
             required
             id="outlined-interest"
             label="Interest Rate (%)"
-            defaultValue="8.5"
+            /* defaultValue="8.5" */
             fullWidth
             margin='dense'
-            onChange={e=>setAnnualRate(e.target.value)}
+            onChange={(e)=>setAnnualRate(e.target.value)}
             value={annualRate}
           />
         </Grid>
@@ -141,10 +138,10 @@ const InputField = () => {
             required
             id="outlined-term"
             label="Term (Years)"
-            defaultValue="6"
+            /* defaultValue="6" */
             fullWidth
             margin='dense'
-            onChange={e=>setYears(e.target.value)}
+            onChange={(e)=>setYears(e.target.value)}
             value={years}
           />
         </Grid>
@@ -164,6 +161,72 @@ const InputField = () => {
           </Button>
         </Grid>
       </Grid>
+      {showSchedule.length > 0 && (
+          <>
+          <Typography variant="h6" sx={{ mt: 3, display: 'flex', flexGrow: 1,}}>
+            <h3> Monthly EMI: ${emi.toFixed(2)}</h3>
+          </Typography>
+            <div style={{
+                display: 'flex',
+                flexGrow: 1,
+                flexDirection: 'row',
+                padding: '2px',
+                pt: 0,  
+                mt: 2,
+                maxHeight: 600, // prevent stretching too much on big screens
+            }}>
+                <CurrencySelect />
+                <p>Converted EMI: {emi.toFixed(2)} {currency} </p>
+                <Button
+                  variant="outlined"
+                  size='small'
+                  color='secondary'
+                  onClick={()=>{
+                    setShowSchedule([]);              
+                  }}
+                > RESET TABLE </Button>
+            </div>
+          
+          
+          
+        <TableContainer
+            component={Paper}
+            sx={{
+              mt: 2,
+              maxHeight: 600, // sets scrollable area height
+              overflow: "auto",
+            }}
+        >
+          <Table size="small" stickyHeader>
+          {/* <Table sx={{ minWidth: 300 }} size="small" aria-label="a dense table"> */}
+          <TableHead>
+          <TableRow>
+          <TableCell colSpan={4} align='left'>Amortization Schedule {currency}</TableCell>
+          </TableRow>
+          <TableRow>
+          <TableCell>Month</TableCell>
+          <TableCell align="center">Principal</TableCell>
+          <TableCell align="center">Interest</TableCell>
+          <TableCell align="right">Remaining Balance</TableCell>
+          </TableRow>
+          </TableHead>
+
+          <TableBody>
+          {showSchedule.map((row)=>(
+          <TableRow key={row.month}>
+          <TableCell align='left'>{row.month}</TableCell>
+          <TableCell align='center'>{row.principal.toFixed(2)} {currency}</TableCell>
+          <TableCell align='center'>{row.interest.toFixed(2)} {currency}</TableCell>
+          <TableCell align='right'>{row.balance.toFixed(2)} {currency}</TableCell>
+          </TableRow>
+          ))}
+          </TableBody>
+
+          </Table>
+        </TableContainer>
+      
+      </>
+      )}
     </Box>
   );
 };
