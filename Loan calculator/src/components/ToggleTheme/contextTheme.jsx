@@ -1,40 +1,40 @@
-/* useColorMode component and ThemeContextProvider to apply to the whole page */
-
+// ThemeCurrencyContext.jsx
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { createContext, useContext, useMemo, useState } from "react";
 
-const ThemeCurrencyContext = createContext({ toggleColorMode: ()=> {} });
-
-export const useColorMode = () => useContext(ThemeCurrencyContext)
+const ThemeCurrencyContext = createContext();
+export const useThemeCurrency = () => useContext(ThemeCurrencyContext);
 
 export const ThemeCurrencyContextProvider = ({ children }) => {
-    
-    const [mode, setMode] = useState('light');
+  // Theme state
+  const [mode, setMode] = useState("light");
+  const toggleTheme = () => {
+    setMode((prev) => (prev === "light" ? "dark" : "light"));
+  };
+  const theme = useMemo(
+    () =>
+      createTheme({
+        palette: { mode },
+      }),
+    [mode]
+  );
 
-    /* it changes only toggles the background theme without rendering the whole page */
-    
- const colorMode = useMemo(()=>({
-        toggleColorMode: () => setMode((prev)=> (prev === 'light' ? 'dark' : 'light')),
-    }), []);
+  // Currency state
+  const [currency, setCurrency] = useState("USD");
 
-    
-    /* const toggleColorMode = () => setMode((prev)=> (prev === 'light' ? 'dark' : 'light')); */
+  const value = useMemo(()=>({
+    mode,
+    toggleTheme,
+    currency,
+    setCurrency,
+  }),[mode, toggleTheme, currency])
 
-    /* once the colorMode updates or renders then it receives mode as light or dark */
-    const theme = useMemo(()=> createTheme({
-        palette: {
-            mode
-        },
-    }), [mode]);
-
-    
-        return(
-        /* colorMode - toggles theme(mode, setMode) and theme - createTheme */
-        <ThemeCurrencyContext.Provider value={colorMode}>
-            <ThemeProvider theme={theme}>
-                <CssBaseline />
-                {children}
-            </ThemeProvider>
-        </ThemeCurrencyContext.Provider>
-    )
+  return (
+    <ThemeCurrencyContext.Provider value={value}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
+    </ThemeCurrencyContext.Provider>
+  );
 };

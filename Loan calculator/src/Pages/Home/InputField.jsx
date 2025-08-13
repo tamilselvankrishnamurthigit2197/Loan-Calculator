@@ -4,24 +4,30 @@ import {
   Button,
   TextField,
   Grid,
+  Table,
+  TableRow,
+  TableHead,
+  Paper,
+  TableCell,
+  TableBody,
 } from '@mui/material';
-import { useMemo, useState } from 'react';
 
+import { useMemo, useState } from 'react';
+import CurrencySelect from '../../components/CurrencyContext/CuSelect';
+import { useThemeCurrency } from '../../components/ToggleTheme/contextTheme';
+
+ 
 /* emi calculation */
 function calcEMI(principal, annualRate, years) {
-  
+
   if (!principal || !annualRate || !years) return 0;
+  const r = annualRate / 12 / 100; /* rate per month */
+  const n = years * 12; /* total months */
 
-  /* rate per month */
-  const r = annualRate / 12 / 100;
-
-  /* total months */
-  const n = years * 12;
-  
   if (r === 0) return principal / n;
-  
+
   const factor = Math.pow(1 + r, n);
-  
+
   return (principal * r * factor) / (factor - 1);
 }
 
@@ -30,6 +36,8 @@ const InputField = () => {
   const [principal, setPrincipal] = useState(100000);
   const [annualRate, setAnnualRate] = useState(8.5)
   const [years, setYears] = useState(5)
+
+  const {currency} = useThemeCurrency()
 
   /* amortization schedule */
   const [showSchedule, setShowSchedule] = useState(true)
@@ -41,11 +49,47 @@ const InputField = () => {
     Number(years)
   ), [principal, annualRate, years]);
 
+  /* Amortization schedule Table */
+  function amortizationSchedule(){}
+  /* calculate holds : currency selector - EMI value with currency - reset button */
+  function handleCalculate(){
+    return(
+      <>
+      <h3>Monthly EMI: ${emi}</h3>
+      <CurrencySelect />
+      <p> Converted EMI: {emi} {currency} </p>
+      <Button variant="outlined"> RESET TABLE</Button>
+      {emi && (
+        <Paper sx={{ mt: 2, overflowX: "auto" }}>
+          <Table size="small">
+            <TableHead>
+                <TableRow>
+                  <TableCell>Month</TableCell>
+                  <TableCell align="center">Principal</TableCell>
+                  <TableCell align="center">Interest</TableCell>
+                  <TableCell align="right">Remaining Balance</TableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+                <TableRow>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                </TableRow>
+              </TableBody>
+          </Table>
+        </Paper>
+      )}
+      </>
+    )
+  }
+
   return (
     <Box
       component="form"
       sx={{
-        
         flexGrow: 1,
         p: { xs: 2, sm: 3, md: 4 },
         pt: 0,  
@@ -74,6 +118,8 @@ const InputField = () => {
             label="Loan Amount"
             fullWidth
             margin='dense'
+            onChange={(e)=>setPrincipal(e.target.value)}
+            value={principal}
           />
         </Grid>
 
@@ -85,6 +131,8 @@ const InputField = () => {
             defaultValue="8.5"
             fullWidth
             margin='dense'
+            onChange={e=>setAnnualRate(e.target.value)}
+            value={annualRate}
           />
         </Grid>
 
@@ -96,6 +144,8 @@ const InputField = () => {
             defaultValue="6"
             fullWidth
             margin='dense'
+            onChange={e=>setYears(e.target.value)}
+            value={years}
           />
         </Grid>
 
@@ -108,7 +158,7 @@ const InputField = () => {
               py: 1.5,
               fontSize: { xs: "0.9rem", sm: "1rem" },
             }}
-            value={principal}
+            onClick={handleCalculate}
           >
             CALCULATE
           </Button>
