@@ -17,9 +17,6 @@ import { useMemo, useState } from 'react';
 import CurrencySelect from '../../components/CurrencyContext/CuSelect';
 import { useThemeCurrency } from '../../components/ToggleTheme/contextTheme';
 
-
-
- 
 /* emi calculation */
 function calcEMI(principal, annualRate, years) {
 
