@@ -2,7 +2,37 @@
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { createContext, useContext, useMemo, useState } from "react";
 
-const ThemeCurrencyContext = createContext();
+// exchange rates relative to USD
+const exchangeRates = {
+  USD: 1,
+  EUR: 0.92,
+  GBP: 0.78,
+  JPY: 146.5,
+  AUD: 1.52,
+  CAD: 1.35,
+  INR: 83.12
+};
+
+// currency symbols
+const currencySymbols = {
+  USD: "$",
+  EUR: '€',
+  GBP: "£",
+  JPY: "¥",
+  AUD: "A$",
+  CAD: "C$",
+  INR: "₹"
+};
+
+// Create Context
+const ThemeCurrencyContext = createContext({
+  toggleTheme: () => {},
+  currency: "USD",
+  setCurrency: () => {},
+  rate: 1,
+  symbol: "$",
+});
+
 export const useThemeCurrency = () => useContext(ThemeCurrencyContext);
 
 export const ThemeCurrencyContextProvider = ({ children }) => {
@@ -27,7 +57,9 @@ export const ThemeCurrencyContextProvider = ({ children }) => {
     toggleTheme,
     currency,
     setCurrency,
-  }),[mode, toggleTheme, currency])
+    rate: exchangeRates[currency],
+    symbol: currencySymbols[currency],
+  }),[currency])
 
   return (
     <ThemeCurrencyContext.Provider value={value}>

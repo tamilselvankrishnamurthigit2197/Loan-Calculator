@@ -40,7 +40,7 @@ const InputField = () => {
   const [annualRate, setAnnualRate] = useState(8.5)
   const [years, setYears] = useState(5)
 
-  const {currency} = useThemeCurrency()
+  const {currency, rate, symbol} = useThemeCurrency()
 
   /* amortization schedule */
   const [showSchedule, setShowSchedule] = useState([])
@@ -176,7 +176,7 @@ const InputField = () => {
                 maxHeight: 600, // prevent stretching too much on big screens
             }}>
                 <CurrencySelect />
-                <p>Converted EMI: {emi.toFixed(2)} {currency} </p>
+                <p>Converted EMI: {emi*rate.toFixed(2)} {symbol} </p>
                 <Button
                   variant="outlined"
                   size='small'
@@ -215,9 +215,9 @@ const InputField = () => {
           {showSchedule.map((row)=>(
           <TableRow key={row.month}>
           <TableCell align='left'>{row.month}</TableCell>
-          <TableCell align='center'>{row.principal.toFixed(2)} {currency}</TableCell>
-          <TableCell align='center'>{row.interest.toFixed(2)} {currency}</TableCell>
-          <TableCell align='right'>{row.balance.toFixed(2)} {currency}</TableCell>
+          <TableCell align='center'>{(row.principal*rate).toFixed(2)} {symbol}</TableCell>
+          <TableCell align='center'>{(row.interest*rate).toFixed(2)} {symbol}</TableCell>
+          <TableCell align='right'>{(row.balance*rate).toFixed(2)} {symbol}</TableCell>
           </TableRow>
           ))}
           </TableBody>
