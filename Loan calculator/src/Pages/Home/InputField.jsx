@@ -161,7 +161,7 @@ const InputField = () => {
       {showSchedule.length > 0 && (
           <>
           <Typography variant="h6" sx={{ mt: 3, display: 'flex', flexGrow: 1,}}>
-            <h3> Monthly EMI: ${emi.toFixed(2)}</h3>
+            <p> Monthly EMI: ${emi.toFixed(2)}</p>
           </Typography>
             <div style={{
                 display: 'flex',
@@ -173,13 +173,13 @@ const InputField = () => {
                 maxHeight: 600, // prevent stretching too much on big screens
             }}>
                 <CurrencySelect />
-                <p>Converted EMI: {emi*rate.toFixed(2)} {symbol} </p>
+                <p>Converted EMI: {emi*rate.toFixed(2)} {currency} </p>
                 <Button
                   variant="outlined"
                   size='small'
                   color='secondary'
                   onClick={()=>{
-                    setShowSchedule([]);              
+                    setShowSchedule([]);          
                   }}
                 > RESET TABLE </Button>
             </div>
@@ -212,9 +212,9 @@ const InputField = () => {
           {showSchedule.map((row)=>(
           <TableRow key={row.month}>
           <TableCell align='left'>{row.month}</TableCell>
-          <TableCell align='center'>{(row.principal*rate).toFixed(2)} {symbol}</TableCell>
-          <TableCell align='center'>{(row.interest*rate).toFixed(2)} {symbol}</TableCell>
-          <TableCell align='right'>{(row.balance*rate).toFixed(2)} {symbol}</TableCell>
+          <TableCell align='center'>{(row.principal*rate).toFixed(2)} {currency}</TableCell>
+          <TableCell align='center'>{(row.interest*rate).toFixed(2)} {currency}</TableCell>
+          <TableCell align='right'>{(row.balance*rate).toFixed(2)} {currency}</TableCell>
           </TableRow>
           ))}
           </TableBody>

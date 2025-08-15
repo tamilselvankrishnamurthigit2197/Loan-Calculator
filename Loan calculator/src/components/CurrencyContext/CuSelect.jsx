@@ -3,9 +3,12 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { useThemeCurrency } from '../ToggleTheme/contextTheme';
 
 export default function CurrencySelect() {
-  const [currency, setCurrency] = React.useState('USD');
+  /* const [currency, setCurrency] = React.useState('USD'); */
+
+  const {currency, setCurrency} = useThemeCurrency();
 
   const handleChange = (event) => {
     setCurrency(event.target.value);
