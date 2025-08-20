@@ -5,6 +5,7 @@ const App = () => {
   return (
     <>
     <Header />
+    
     {/* which containes layout to the pages (re render)  */}
     <Route1 />
     </>

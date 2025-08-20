@@ -13,24 +13,12 @@ const exchangeRates = {
   INR: 83.12
 };
 
-// currency symbols
-const currencySymbols = {
-  USD: "$",
-  EUR: '€',
-  GBP: "£",
-  JPY: "¥",
-  AUD: "A$",
-  CAD: "C$",
-  INR: "₹"
-};
-
 // Create Context
 const ThemeCurrencyContext = createContext({
   toggleTheme: () => {},
   currency: "USD",
   setCurrency: () => {},
   rate: 1,
-  symbol: "$",
 });
 
 export const useThemeCurrency = () => useContext(ThemeCurrencyContext);
@@ -58,7 +46,7 @@ export const ThemeCurrencyContextProvider = ({ children }) => {
     currency,
     setCurrency,
     rate: exchangeRates[currency],
-    symbol: currencySymbols[currency],
+    
   }),[currency])
 
   return (

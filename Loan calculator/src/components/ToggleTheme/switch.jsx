@@ -14,9 +14,10 @@ import { useThemeCurrency } from './contextTheme';
     <div>
       {/* <Switch onClick={colorMode.toggleColorMode} color='default' {...label} /> */}
       <Switch
-      onChange={toggleTheme}
-      color='default'
-       {...label} />
+        onChange={toggleTheme}
+        color='default'
+        {...label}
+      />
     </div>
   );
 }

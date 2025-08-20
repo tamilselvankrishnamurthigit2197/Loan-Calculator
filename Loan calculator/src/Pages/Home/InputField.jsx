@@ -56,6 +56,7 @@ const InputField = () => {
     const months = Number(years) * 12;
     const table = [];
 
+/* rotates until months to cover accor to years */
     for (let i = 1; i <= months; i++) {
       const interestPayment = balance * r;
       const principalPayment = emi - interestPayment;
@@ -162,7 +163,10 @@ const InputField = () => {
       </Grid>
       {showSchedule.length > 0 && (
           <>
-          <Typography variant="h6" sx={{ mt: 3, display: 'flex', flexGrow: 1,}}>
+          <Typography
+            variant="h6"
+            sx={{ mt: 3, display: 'flex', flexGrow: 1,}}
+          >
             <p> Monthly EMI: ${emi.toFixed(2)}</p>
           </Typography>
             <div style={{
@@ -175,7 +179,7 @@ const InputField = () => {
                 maxHeight: 600, // prevent stretching too much on big screens
             }}>
                 <CurrencySelect />
-                <p>Converted EMI: {emi*rate.toFixed(2)} {currency} </p>
+                <p> Converted EMI: {emi*rate.toFixed(2)} {currency} </p>
                 <Button
                   sx={{
                     mx: 1,
@@ -185,12 +189,11 @@ const InputField = () => {
                   size='small'
                   color='secondary'
                   onClick={()=>{
-                    setShowSchedule([]);          
+                    setShowSchedule([]);      
                   }}
-                > RESET TABLE </Button>
+                > RESET TABLE</Button>
             </div>
           
-
         <TableContainer
             component={Paper}
             sx={{
@@ -199,27 +202,32 @@ const InputField = () => {
               overflow: "auto",
             }}
         >
-          <Table size="small" stickyHeader>
+          <Table
+            size="small"
+            stickyHeader
+          >
           {/* <Table sx={{ minWidth: 300 }} size="small" aria-label="a dense table"> */}
           <TableHead>
           <TableRow>
-          <TableCell colSpan={4} align='left'>Amortization Schedule {currency}</TableCell>
+          <TableCell
+            colSpan={4}
+            align='left'> Amortization Schedule {currency}</TableCell>
           </TableRow>
           <TableRow>
-          <TableCell>Month</TableCell>
-          <TableCell align="center">Principal</TableCell>
-          <TableCell align="center">Interest</TableCell>
-          <TableCell align="right">Remaining Balance</TableCell>
+          <TableCell> Month</TableCell>
+          <TableCell align="center"> Principal</TableCell>
+          <TableCell align="center"> Interest</TableCell>
+          <TableCell align="right"> Remaining Balance</TableCell>
           </TableRow>
           </TableHead>
 
           <TableBody>
           {showSchedule.map((row)=>(
           <TableRow key={row.month}>
-          <TableCell align='left'>{row.month}</TableCell>
-          <TableCell align='center'>{(row.principal*rate).toFixed(2)} {currency}</TableCell>
-          <TableCell align='center'>{(row.interest*rate).toFixed(2)} {currency}</TableCell>
-          <TableCell align='right'>{(row.balance*rate).toFixed(2)} {currency}</TableCell>
+          <TableCell align='left'> {row.month}</TableCell>
+          <TableCell align='center'> {(row.principal*rate).toFixed(2)} {currency}</TableCell>
+          <TableCell align='center'> {(row.interest*rate).toFixed(2)} {currency}</TableCell>
+          <TableCell align='right'> {(row.balance*rate).toFixed(2)} {currency}</TableCell>
           </TableRow>
           ))}
           </TableBody>
@@ -233,4 +241,4 @@ const InputField = () => {
   );
 };
 
-export default InputField;
+export default InputField
