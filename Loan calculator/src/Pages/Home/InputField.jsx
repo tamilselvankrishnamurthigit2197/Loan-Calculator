@@ -37,7 +37,7 @@ const InputField = () => {
   const [annualRate, setAnnualRate] = useState(8.5)
   const [years, setYears] = useState(5)
 
-  const {currency, rate, symbol} = useThemeCurrency()
+  const {currency, rate } = useThemeCurrency()
 
   /* amortization schedule */
   const [showSchedule, setShowSchedule] = useState([])
@@ -190,8 +190,7 @@ const InputField = () => {
                 > RESET TABLE </Button>
             </div>
           
-          
-          
+
         <TableContainer
             component={Paper}
             sx={{

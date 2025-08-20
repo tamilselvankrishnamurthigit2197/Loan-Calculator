@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-import { Button, Typography, Box } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 
 const About = () => {
   return (
