@@ -89,6 +89,8 @@ const InputField = () => {
         pt: 0,  
         maxWidth: 800, // prevent stretching too much on big screens
       }}
+      marginTop={'4rem'}
+      marginBottom={'1.5rem'}
       noValidate
       autoComplete="off"
     >

@@ -1,4 +1,3 @@
-import * as React from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,22 +8,26 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import axios from "axios";
 import Typography from "@mui/material/Typography";
+import React from "react";
+import { Box } from "@mui/material";
 
 export default function Exchange() {
-  const [rows, setRows] = React.useState([]);
-  const [base, setBase] = React.useState("USD");
 
+  const [rows, setRows] = React.useState([]);
   const columns = [
-    { id: "currency", label: "Currency", minWidth: 80 },
+    { id: "currency", label: "Currency", minWidth: 80},
     {
       id: "rate",
       label: "Rate",
-      minWidth: 100,
+      minWidth: 100,  
       align: "right",
       format: (value) => value.toLocaleString("en-US"),
     },
   ];
 
+  const [base, setBase] = React.useState("USD");
+
+  /* when compound mounts or page reloads */
   React.useEffect(() => {
     const url =
       "https://v6.exchangerate-api.com/v6/741a571ab91393226387553c/latest/USD";
@@ -33,6 +36,7 @@ export default function Exchange() {
       try {
         const { data } = await axios.get(url);
 
+        /* filters except USD currency and rate(data.base_code) */
         if (data?.conversion_rates) {
           const formattedRows = Object.entries(data.conversion_rates).filter(
             ([currency]) => currency !== data.base_code
@@ -65,15 +69,40 @@ export default function Exchange() {
   };
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden", p: 1 }}>
-      <Typography
-        sx={{ textAlign: "left", p: 1 }}
+    <Box
+      component="form"
+      sx={{
+        flexGrow: 1,
+        p: { xs: 2, sm: 3, md: 4 },
+        pt: 0,  
+        maxWidth: 800, // prevent stretching too much on big screens
+      }}
+      marginTop={'4rem'}
+      marginBottom={'1.5rem'}
+      noValidate
+      autoComplete="off"
+    >
+       <Typography
+        variant="h5"
+        sx={{
+          mb: 3,
+          mt: 0,
+          fontSize: { xs: "1.25rem", sm: "1.5rem", md: "1.75rem" }, // responsive text
+          textAlign: { xs: "left", sm: "left" },
+        }}
       >
         Live Exchange Rates (Base: {base})
       </Typography>
 
-      <TableContainer sx={{ maxHeight: 400 }}>
-        <Table stickyHeader>
+      <TableContainer
+            component={Paper}
+            sx={{
+              mt: 2,
+              maxHeight: 800, // sets scrollable area height
+              overflow: "auto",
+            }}
+        >
+          <Table size="small" stickyHeader>
           <TableHead>
             <TableRow>
               {columns.map((column) => (
@@ -123,6 +152,6 @@ export default function Exchange() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-    </Paper>
+        </Box>
   );
 }
