@@ -86,7 +86,7 @@ const InputField = () => {
       sx={{
         flexGrow: 1,
         p: { xs: 2, sm: 3, md: 4 },
-        pt: 0,  
+        pt: 0,
         maxWidth: 800, // prevent stretching too much on big screens
       }}
       marginTop={'4rem'}
@@ -177,6 +177,10 @@ const InputField = () => {
                 <CurrencySelect />
                 <p>Converted EMI: {emi*rate.toFixed(2)} {currency} </p>
                 <Button
+                  sx={{
+                    mx: 1,
+                    py: 0.2,
+                  }}
                   variant="outlined"
                   size='small'
                   color='secondary'
